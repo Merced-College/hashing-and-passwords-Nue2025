@@ -21,7 +21,6 @@ int HashString(const string& value) {
    return (int)(hashCode & 0x7fffffff); //Ensure positive value /* Nue's Note: Remember that the f's are just 1's. So convert 883 to binary, which is 0b1101110011*/
 }
 
-
 int main() {
     unordered_map<int, vector<string>> passwordTable; // Handles collisions using a vector
     ifstream passwordFile("10-million-password-list-top-10000.txt"); // Replace with the actual password file
@@ -38,13 +37,13 @@ int main() {
     cout << "Reading passwords and hashing...\n";
     while (getline(passwordFile, password)) {
         int hashValue = HashString(password);
-        int originalHash = hashValue; // Store the original hash value
-        int tableSize = 10000; // Define the size of the hash table
-        int c1 = 1, c2 = 1; // Quadratic probing coefficients
+        int tableSize = 10000; //Define the size of the hash table
+        int c1 = 1; //Quadratic probing coefficients
+        int c2 = 1; 
         int i = 0;
 
         while (true) {
-            int newIndex = (originalHash + c1 * i + c2 * i * i) % tableSize;
+            int newIndex = (hashValue + c1 * i + c2 * i * i) % tableSize;
             // Check if the slot is empty
             if (passwordTable[newIndex].empty()) {
                 passwordTable[newIndex].push_back(password); // Insert the password
